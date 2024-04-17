@@ -14,6 +14,7 @@ function App() {
   const [targetLang, setTargetLang] = useState('KO');
   const [isTranslated, setIsTranslated] = useState(false) //번역되어있는지 flag
 
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
   const searchArtists = async (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ function App() {
       return;
     }
     try {
-      const response = await fetch("/api/search", {
+      const response = await fetch(`${BACKEND_URL}/api/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -52,7 +53,7 @@ function App() {
     try {
       console.log(track);
       setSelectedTrack(track.name);
-      const response = await fetch('/api/track/select', {
+      const response = await fetch(`${BACKEND_URL}/api/track/select`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76,7 +77,7 @@ function App() {
 
   const handleTranslate = async () => {
     try {
-      const response = await axios.post('/api/translate', { lyrics, targetLang });
+      const response = await axios.post(`${BACKEND_URL}/api/translate`, { lyrics, targetLang });
       setTranslatedLyrics(response.data.text);
       setIsTranslated(!isTranslated); //true
       console.log('번역완료');
