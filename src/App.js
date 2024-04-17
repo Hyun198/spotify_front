@@ -32,7 +32,8 @@ function App() {
         },
         body: JSON.stringify({
           searchTerm: searchTerm
-        })
+        }),
+        credentials: 'include'
       })
       if (!response.ok) {
         throw new Error("Failed to search artists");
@@ -58,7 +59,8 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(track)
+        body: JSON.stringify(track),
+        credentials: 'include'
       });
       if (!response.ok) {
         throw new Error("Failed to send track");
@@ -77,7 +79,10 @@ function App() {
 
   const handleTranslate = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/translate`, { lyrics, targetLang });
+      const response = await axios.post(`${BACKEND_URL}/api/translate`, { lyrics, targetLang },
+        {
+          withCredentials: true
+        });
       setTranslatedLyrics(response.data.text);
       setIsTranslated(!isTranslated); //true
       console.log('번역완료');
